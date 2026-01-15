@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1-fixed
+      author: bank_cards_app
+      changes:
+        # ВСЁ в одном changeset, включая создание roles
+        - sql:
+            sql: |
+              CREATE TABLE IF NOT EXISTS users (
+                  id BIGSERIAL PRIMARY KEY,
+                  username VARCHAR(255) NOT NULL UNIQUE,
+                  password VARCHAR(255) NOT NULL,
+                  email VARCHAR(255) NOT NULL UNIQUE,
+                  first_name VARCHAR(255),
+                  last_name VARCHAR(255),
+                  role VARCHAR(50) DEFAULT 'USER' NOT NULL
+              );
+              
+              CREATE TABLE IF NOT EXISTS roles (
+                  id BIGSERIAL PRIMARY KEY,
+                  name VARCHAR(50) NOT NULL UNIQUE
+              );
+              
+              CREATE TABLE IF NOT EXISTS cards (
+                  id BIGSERIAL PRIMARY KEY,
+                  number VARCHAR(255) NOT NULL UNIQUE,
+                  owner VARCHAR(255) NOT NULL,
+                  expiry_date DATE NOT NULL,
+                  status VARCHAR(50) NOT NULL,
+                  balance DOUBLE PRECISION NOT NULL,
+                  user_id BIGINT NOT NULL,
+                  CONSTRAINT fk_cards_user FOREIGN KEY (user_id) 
+                  REFERENCES users(id) ON DELETE CASCADE
+              );
