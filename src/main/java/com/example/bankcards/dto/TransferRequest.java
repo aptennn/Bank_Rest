@@ -17,7 +17,6 @@ public class TransferRequest {
     @Positive(message = "Amount must be positive")
     private Double amount;
 
-    // Getters and Setters
     public String getSourceCardNumber() {
         return sourceCardNumber;
     }
