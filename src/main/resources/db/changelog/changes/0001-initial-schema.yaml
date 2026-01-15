@@ -2,6 +2,10 @@ databaseChangeLog:
   - changeSet:
       id: 1
       author: bank_cards_app
+      preConditions:
+        - not:
+            tableExists:
+              tableName: users
       changes:
         - createTable:
             tableName: users
